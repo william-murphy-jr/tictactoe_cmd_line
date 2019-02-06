@@ -5,6 +5,7 @@ const tictactoe = () => {
   let moves = []; // array to hold all move our state
   let player = 'X'; 
   let moveCounter = 0;
+  let currentSelection = '';
 
   const winCombos = [
     [0, 1, 2],
@@ -51,11 +52,18 @@ const tictactoe = () => {
   });
 
   // while (isPlayinygame) {}
+  const nextQuestion = () => {
+    readline.question(`Select a box to put your ${player} in:  `, (selection) => {
+      console.log(` ${selection}!`);
+      currentSelection = selection;
+      nextQuestion();
+  
+    });
+  }
 
-  readline.question(`Select a box to put your ${player} in:  `, (selection) => {
-    console.log(`Hi ${selection}!`)
-    // readline.close()
-  });
+  nextQuestion();
+
+
 
 };
 
