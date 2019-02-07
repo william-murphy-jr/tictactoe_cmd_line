@@ -40,18 +40,47 @@ const tictactoe = () => {
     output: process.stdout
   });
 
-  const checkForWin = (selection) => {
-    console.log(selection);
-
-  }
-
   const updateDateDisplay = () => {
     console.log('updateDislplay()');
     displayBoard();
   }
 
+  const checkForWin = (player) => {
+    const checkCombo = (combo) => {
+      let j = 0;
+      while (j < combo.length) {
+        if (moves[combo[j]] !== player) {
+          return false;
+        }
+        if (j === 2) {
+          return true;
+        }
+        j++;
+      }
+      return false;
+    } // checkCombo
+
+    for (let i = 0; i < winCombos.length; i++) {
+      let combo = winCombos[i];
+      if (checkCombo(combo)) {
+        return true;
+      }
+    }
+
+    return false;
+  } // checkForWin
+
+  const winner = (player) => {
+    console.log(`\n${player} you won the game!!!\n`);
+  }
+  
+  const drawGame = () => {
+    console.log(`\nPlayer\'s it is a DRAW!!!\n`);
+  }
+
+
   const game = (selection) => {
-    var boxSelected = Number(selection);
+    let boxSelected = Number(selection);
 
     // isNaN is used just in case a non-number gets through
     if (!isNaN(boxSelected)) {
@@ -64,6 +93,7 @@ const tictactoe = () => {
       }
 
       if (checkForWin(currentPlayer)) {
+        console.log('we have a winner')
         winner(currentPlayer);
       }
 
@@ -94,4 +124,5 @@ const tictactoe = () => {
 
 };
 
+// Initialize the game
 tictactoe();
