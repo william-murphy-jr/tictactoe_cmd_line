@@ -2,10 +2,9 @@
 console.log('Tic Tac Toe :)');
 
 const tictactoe = () => {
-  let moves = []; // array to hold all move our state
-  let player = 'X'; 
-  let moveCounter = 0;
-  let currentSelection = '';
+  let moves = ['1', '2', '3', '4', '5', '6', '7', '8', '9']; // array to hold all move our state
+  let currentPlayer = 'X'; 
+  let moveCntr = 0;
 
   const winCombos = [
     [0, 1, 2],
@@ -19,22 +18,11 @@ const tictactoe = () => {
   ];
 
   const displayBoard = () => {
-    let pos0 = '0';
-    let pos1 = '1';
-    let pos2 = '2';
-
-    let pos3 = '3';
-    let pos4 = '4';
-    let pos5 = '5';
-
-    let pos6 = '6';
-    let pos7 = '7';
-    let pos8 = '8';
-
-    let row0 = ` ${pos0}   |  ${pos1}  |  ${pos2}  `;
-    let row1 = ` ${pos3}   |  ${pos4}  |  ${pos5}  `;
-    let row2 = ` ${pos6}   |  ${pos7}  |  ${pos8}  `;
+    let row0 = ` ${moves[0]}   |  ${moves[1]}  |  ${moves[2]}  `;
+    let row1 = ` ${moves[3]}   |  ${moves[4]}  |  ${moves[5]}  `;
+    let row2 = ` ${moves[6]}   |  ${moves[7]}  |  ${moves[8]}  `;
     
+    console.log('');
     console.log('     |     |    ');
     console.log(row0);
     console.log('-----|-----|----');
@@ -42,6 +30,7 @@ const tictactoe = () => {
     console.log('-----|-----|----');
     console.log(row2);
     console.log('     |     |    ');
+    console.log('');
   
   }; // display()
   displayBoard();
@@ -51,17 +40,55 @@ const tictactoe = () => {
     output: process.stdout
   });
 
-  // while (isPlayinygame) {}
-  const nextQuestion = () => {
-    readline.question(`Select a box to put your ${player} in:  `, (selection) => {
+  const checkForWin = (selection) => {
+    console.log(selection);
+
+  }
+
+  const updateDateDisplay = () => {
+    console.log('updateDislplay()');
+    displayBoard();
+  }
+
+  const game = (selection) => {
+    var boxSelected = Number(selection);
+
+    // isNaN is used just in case a non-number gets through
+    if (!isNaN(boxSelected)) {
+      // Do an input sanity check here!
+      boxSelected -=  1;
+      if (moves[boxSelected] !== 'X' || moves[boxSelected] !== 'O' && boxSelected <= 8){
+        moves[boxSelected] = currentPlayer;
+      } else {
+        question('please select a box')
+      }
+
+      if (checkForWin(currentPlayer)) {
+        winner(currentPlayer);
+      }
+
+      if (moveCntr === 8) {
+        drawGame();
+      }
+
+      updateDateDisplay();
+
+      moveCntr++;
+      currentPlayer = currentPlayer === "X" ? "O" : "X";
+      question('\'s turn!');
+    }
+  } // game
+
+  const question = (message) => {
+    const msg = `Player ${currentPlayer}${message}:  `;
+    readline.question(`${msg}`, (selection) => {
       console.log(` ${selection}!`);
-      currentSelection = selection;
-      nextQuestion();
-  
+      game(selection);
+      question(' select a box to play in.');
     });
   }
 
-  nextQuestion();
+  question(' select a box to play in.');
 
 
 
